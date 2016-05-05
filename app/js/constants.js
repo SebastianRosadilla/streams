@@ -1,5 +1,5 @@
 const AppSettings = {
-  appTitle: 'Example Application',
+  appTitle: 'Streams HTML5',
   apiUrl: '/api/v1'
 };
 

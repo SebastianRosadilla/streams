@@ -1,4 +1,7 @@
-<canvas width="640" height="480" id="c"></canvas>
-<input type="button" value="RECORD" onClick="home.enter()"/>
+<video id="my_video" width="640" height="480" autoplay></video>
+<canvas style="display:none;"></canvas>
+<img src="" alt="" />
+
+<input type="button" value="RECORD" ng-click="home.video()"/>
+<input type="button" value="SNAPSHOT" ng-click="home.snapshot()"/>
 <input type="button" value="SAVE" />
-<video id="my_video" width="640" height="480"/>

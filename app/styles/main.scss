@@ -1,9 +1,10 @@
 @import 'vars';
 @import 'typography';
+@import 'snapshots';
 
 body {
   font-family: Helvetica, sans-serif;
   color: $font-color--dark;
-  background-color: $background--light;
+  background-color: $snow-background;
   padding: $half-space;
 }
