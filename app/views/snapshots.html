@@ -1,13 +1,24 @@
 <div class="snapshot">
+  <h1>3d images gallery</h1>
+  <div class="container">
+		<div id="carousel">
+			<figure ng-repeat="image in snapshot.images">
+        <img src="{{image.src}}" alt="{{image.alt}}">
+      </figure>
+		</div>
+	</div>
 
   <div class="media">
     <video></video>
     <div class="canvas"><canvas></canvas></div>
   </div>
 
-  <input type="button" value="START" ng-click="snapshot.start()"/>
-  <input type="button" value="SNAPSHOT" ng-click="snapshot.snapshot()"/>
-  <input type="button" value="CHRISTMAS" ng-click="snapshot.christmas()"/>
-  <input type="button" value="PARTICLES" ng-click="snapshot.particles()"/>
+  <div class="buttons">
+    <input type="button" value="START" ng-click="snapshot.start()"/>
+    <input type="button" value="STOP" ng-click="snapshot.stop()"/>
+    <input type="button" value="SNAPSHOT" ng-click="snapshot.snapshot()"/>
+    <input type="button" value="CHRISTMAS" ng-click="snapshot.christmas()"/>
+    <input type="button" value="GRAY" ng-click="snapshot.grayScale()"/>
+  </div>
 
 </div>

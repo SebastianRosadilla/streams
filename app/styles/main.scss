@@ -2,9 +2,25 @@
 @import 'typography';
 @import 'snapshots';
 
+@import url(http://fonts.googleapis.com/css?family=Anaheim);
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+
+  &:before, &:after {
+    box-sizing: border-box;
+  }
+}
+
+html {
+  min-height: 100%;
+}
+
 body {
-  font-family: Helvetica, sans-serif;
-  color: $font-color--dark;
-  background-color: $snow-background;
-  padding: $half-space;
+  min-height: 100%;
+  background-image: radial-gradient(mintcream 0%, lightgray 100%);
 }
