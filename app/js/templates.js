@@ -1,0 +1,2 @@
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("home.html","<canvas width=\"640\" height=\"480\" id=\"c\"></canvas>\n<input type=\"button\" value=\"RECORD\" onClick=\"home.enter()\"/>\n<input type=\"button\" value=\"SAVE\" />\n<video id=\"my_video\" width=\"640\" height=\"480\"/>\n");
+$templateCache.put("directives/example.html","<div class=\"example-directive\">\n  <h1>Directive title: {{title}}</h1>\n  <p>This is an example of a directive, click me!</p>\n</div>\n");}]);

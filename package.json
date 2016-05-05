@@ -1,11 +1,11 @@
 {
-  "name": "angularjs-gulp-browserify-boilerplate",
-  "version": "1.5.9",
-  "author": "Jake Marsh <jakemmarsh@gmail.com>",
-  "description": "Boilerplate using AngularJS, SASS, Gulp, and Browserify while also utilizing best practices.",
+  "name": "streams",
+  "version": "1.0.0",
+  "author": "Alfredo Sebastian Rosadilla Ribeiro<sebafing@gmail.com>",
+  "description": "Make an sliders about streams and HTML5.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jakemmarsh/angularjs-gulp-browserify-boilerplate.git"
+    "url": "https://github.com/SebastianRosadilla/streams.git"
   },
   "keywords": [
     "express",
@@ -69,6 +69,7 @@
     "karma-sauce-launcher": "^0.3.0",
     "merge-stream": "^1.0.0",
     "pretty-hrtime": "^1.0.1",
+    "reveal": "0.0.4",
     "run-sequence": "^1.1.5",
     "tiny-lr": "^0.2.1",
     "uglifyify": "^3.0.1",
@@ -79,5 +80,5 @@
   "scripts": {
     "test": "./node_modules/.bin/gulp test"
   },
-  "license": "MIT"
+  "license": "GNU"
 }
