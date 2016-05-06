@@ -68,6 +68,25 @@
       overflow: hidden;
       border: solid 5px black;
 
+      a {
+        bottom: -12px;
+        color: #fff;
+        height: 20px;
+        font-size: 6pt;
+        right: 0;
+        position: absolute;
+        transition: 0.5s all ease-out;
+        width: 50px;
+
+        &:hover {
+          bottom: -5px;
+          font-size: 11pt;
+          font-weight: bold;
+          transform: translateX(-10px);
+          width: 80px;
+        }
+      }
+
       &:nth-child(1) {
         transform: rotateY(0deg) translateZ(288px);
       }
@@ -111,10 +130,6 @@
     width: 100%;
     cursor: pointer;
     transition: all .5s ease;
-
-    &:hover {
-      -webkit-filter: grayscale(0);
-    }
   }
 
   @keyframes rotation {

@@ -4,6 +4,7 @@
 		<div id="carousel">
 			<figure ng-repeat="image in snapshot.images">
         <img src="{{image.src}}" alt="{{image.alt}}">
+        <a href="{{image.src}}" class="download">DOWNLOAD</a>
       </figure>
 		</div>
 	</div>
@@ -22,7 +23,7 @@
     <input type="button" value="BRIGHTNESS" ng-click="snapshot.change('brightness')"/>
     <input type="button" value="THRESHOLD" ng-click="snapshot.change('threshold')"/>
     <input type="button" value="CONVULTED" ng-click="snapshot.change('convolute')"/>
-    <a id="download" type="download">DOWNLOAD</a>
+    <a class="download">DOWNLOAD</a>
     <h3>Play with threshold</h3>
     <input type="text" ng-model="snapshot.hold"></input>
     <h3>Play with brightness</h3>

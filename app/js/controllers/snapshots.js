@@ -26,65 +26,71 @@ function SnapShot(Effects, $filter) {
     let canvas = this._config.canvas;
     let ctx = this._config.ctx;
 
-    this._intervale;
+    if (!this._start) {
+      this._intervale;
+      this._start = true;
 
-    // match browser with corresponding navigator object
-    navigator.getMedia = navigator[media];
+      // match browser with corresponding navigator object
+      navigator.getMedia = navigator[media];
 
-    navigator.getMedia({
-      video: true
-    }, (stream) => {
-      this._config.video.src = window.URL.createObjectURL(stream);
-      this._config.stream = stream;
+      navigator.getMedia({
+        video: true
+      }, (stream) => {
+        this._config.video.src = window.URL.createObjectURL(stream);
+        this._config.stream = stream;
+        this._config.video.play();
 
-      canvasParent.style.height = canvas.clientHeight.toString().concat('px');
-      canvasParent.style.width = window.innerWidth.toString().concat('px');
-      window.addEventListener('resize', (event) => {
+        canvasParent.style.height = canvas.clientHeight.toString().concat('px');
         canvasParent.style.width = window.innerWidth.toString().concat('px');
-      })
-      canvasParent.style['background-position'] = 'center';
-      canvas.style.display = 'none';
+        window.addEventListener('resize', (event) => {
+          canvasParent.style.width = window.innerWidth.toString().concat('px');
+        })
+        canvasParent.style['background-position'] = 'center';
+        canvas.style.display = 'none';
 
-      this._intervale = setInterval(() => {
-        let image = new Image();
-        let pixels;
+        this._intervale = setInterval(() => {
+          let image = new Image();
+          let pixels;
 
-        ctx.drawImage(video, 0, 0, 300, 150);
-        image.src = canvas.toDataURL('image/webp');
-        pixels = $filter('Filters').getPixels(image);
+          ctx.drawImage(video, 0, 0, 300, 150);
+          image.src = canvas.toDataURL('image/jpeg', 1.0);
+          pixels = $filter('Filters').getPixels(image);
 
-        if (filters.grayscale) {
-          image = $filter('Filters').grayscale(pixels);
-          ctx.putImageData(image, 0, 0);
-        } else if (filters.brightness) {
-          image = $filter('Filters').brightness(
-            pixels,SnapShot.prototype.bright
+          if (filters.grayscale) {
+            image = $filter('Filters').grayscale(pixels);
+            ctx.putImageData(image, 0, 0);
+          } else if (filters.brightness) {
+            image = $filter('Filters').brightness(
+              pixels,SnapShot.prototype.bright
+            );
+            ctx.putImageData(image, 0, 0);
+          } else if (filters.threshold) {
+            image = $filter('Filters').threshold(
+              pixels, SnapShot.prototype.hold
+            );
+            ctx.putImageData(image, 0, 0);
+          } else if (filters.convolute) {
+            image = $filter('Filters').convolute(
+              pixels,
+              [
+                1, 0 , 1,
+                0.2, 0.5, 1,
+                1, 0, 0
+              ],
+              12
+            );
+            ctx.putImageData(image, 0, 0);
+          }
+          canvasParent.style['background-image'] = 'url('.concat(
+            canvas.toDataURL('image/jpeg', 1.0), ')'
           );
-          ctx.putImageData(image, 0, 0);
-        } else if (filters.threshold) {
-          image = $filter('Filters').threshold(
-            pixels, SnapShot.prototype.hold
-          );
-          ctx.putImageData(image, 0, 0);
-        } else if (filters.convolute) {
-          image = $filter('Filters').convolute(
-            pixels,
-            [
-              1, 0 , 1,
-              0.2, 0.5, 1,
-              1, 0, 0
-            ],
-            12
-          );
-          ctx.putImageData(image, 0, 0);
-        }
-        canvasParent.style['background-image'] = 'url('.concat(
-          canvas.toDataURL('image/webp'), ')'
-        );
-        canvasParent.style['background-repeat'] = 'no-repeat';
-      }, 100)
+          canvasParent.style['background-repeat'] = 'no-repeat';
+        }, 100)
 
-    }, error);
+      }, error);
+    } else {
+      this._config.video.play();
+    }
   }
 
   SnapShot.prototype.snapshot = () => {
@@ -103,24 +109,25 @@ function SnapShot(Effects, $filter) {
   }
 
   SnapShot.prototype.stop = () => {
-    clearInterval(this._intervale);
-    this._iterator = 0;
+    this._config.video.pause();
   }
 
-  let downloadCanvas = (link, canvasId, filename) => {
+  let downloadCanvas = (link, filename) => {
     if (this._config.stream) {
-      link.href = this._config.canvas.toDataURL('image/jpeg', 1.0);
+      link.href = link.href.slice(7) || this._config.canvas.toDataURL('image/jpeg', 1.0);
       link.download = filename;
     }
   }
 
-  /**
-   * The event handler for the link's onclick event. We give THIS as a
-   * parameter (=the link element), ID of the canvas and a filename.
-   */
-  document.getElementById('download').addEventListener('click', function() {
-    downloadCanvas(this, 'canvas', 'image.jpg');
-  }, false);
+  document.addEventListener('DOMContentLoaded', (event) => {
+    let downloadElements = document.getElementsByClassName('download');
+    for (let index = 0; index < downloadElements.length; index++) {
+      downloadElements[index].addEventListener('click', function() {
+        downloadCanvas(this, 'image.jpg');
+      }, false);
+    }
+  })
+
 
   SnapShot.prototype.images = ((that) => {
     let images = [];
@@ -144,7 +151,8 @@ function SnapShot(Effects, $filter) {
     let ctx = this._config.ctx;
 
     ctx.drawImage(video, 0, 0, video.width, video.height);
-    SnapShot.prototype.images[this._iterator].src = canvas.toDataURL();
+    SnapShot.prototype.
+      images[this._iterator].src = canvas.toDataURL('image/jpeg', 1.0);
 
     this._iterator > 7 ? this._iterator = 0 : this._iterator++;;
 
