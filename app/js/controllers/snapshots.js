@@ -38,6 +38,11 @@ function SnapShot(Effects, $filter) {
       this._config.stream = stream;
 
       canvasParent.style.height = canvas.clientHeight.toString().concat('px');
+      canvasParent.style.width = window.innerWidth.toString().concat('px');
+      window.addEventListener('resize', (event) => {
+        canvasParent.style.width = window.innerWidth.toString().concat('px');
+      })
+      canvasParent.style['background-position'] = 'center';
       canvas.style.display = 'none';
 
       this._intervale = setInterval(() => {

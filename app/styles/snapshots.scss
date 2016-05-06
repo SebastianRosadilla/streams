@@ -5,21 +5,20 @@
   .media {
     text-align: center;
     width: 100%;
-    
+
     .canvas {
-      margin-left: 30%;
-      width: 40%;
+      width: 400px;
     }
 
     video {
       display: none;
     }
   }
-  
+
   .buttons {
     text-align: center;
   }
-  
+
   h1 {
     display: table;
     margin: 5% auto 0;
@@ -31,7 +30,7 @@
   }
 
   .container {
-    margin: 12% auto;
+    margin: 8% auto 5% auto;
     width: 210px;
     height: 140px;
     position: relative;
@@ -120,4 +119,3 @@
     }
   }
 }
-
