@@ -17,8 +17,15 @@
     <input type="button" value="START" ng-click="snapshot.start()"/>
     <input type="button" value="STOP" ng-click="snapshot.stop()"/>
     <input type="button" value="SNAPSHOT" ng-click="snapshot.snapshot()"/>
-    <input type="button" value="CHRISTMAS" ng-click="snapshot.christmas()"/>
-    <input type="button" value="GRAY" ng-click="snapshot.grayScale()"/>
+    <input type="button" value="GRAYSCALE" ng-click="snapshot.change('grayscale')"/>
+    <input type="button" value="BRIGHTNESS" ng-click="snapshot.change('brightness')"/>
+    <input type="button" value="THRESHOLD" ng-click="snapshot.change('threshold')"/>
+    <input type="button" value="CONVULTED" ng-click="snapshot.change('convolute')"/>
+    <a id="download" type="download">DOWNLOAD</a>
+    <h3>Play with threshold</h3>
+    <input type="text" ng-model="snapshot.hold"></input>
+    <h3>Play with brightness</h3>
+    <input type="text" ng-model="snapshot.bright"></input>
   </div>
 
 </div>
