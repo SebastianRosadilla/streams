@@ -109,7 +109,7 @@ function SnapShot(Effects, $filter) {
 
   let downloadCanvas = (link, canvasId, filename) => {
     if (this._config.stream) {
-      link.href = this._config.canvas.toDataURL("image/jpeg", 1.0);
+      link.href = this._config.canvas.toDataURL('image/jpeg', 1.0);
       link.download = filename;
     }
   }
