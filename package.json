@@ -79,5 +79,8 @@
   "scripts": {
     "test": "./node_modules/.bin/gulp test"
   },
-  "license": "GNU"
+  "license": "GNU",
+  "dependencies": {
+    "jquery": "^2.2.3"
+  }
 }

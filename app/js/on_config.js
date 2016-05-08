@@ -5,13 +5,13 @@ function OnConfig($stateProvider, $locationProvider, $urlRouterProvider) {
 
   $stateProvider
     .state('SnapShot', {
-      url: '/',
+      url: '/snapshot',
       controller: 'SnapShot as snapshot',
       templateUrl: 'snapshots.html',
       title: 'SnapShot'
     })
     .state('Home', {
-      url: '/home',
+      url: '/',
       controller: 'HomeCtrl as home',
       templateUrl: 'home.html',
       title: 'Home'
