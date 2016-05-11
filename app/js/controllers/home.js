@@ -1,16 +1,33 @@
 import $ from 'jquery';
 
-function HomeCtrl($filter) {
+function HomeCtrl($scope, $filter, Streams) {
   'ngInject';
 
-  const MEDIA_NAVIGATORS = [
-    'getUserMedia',
-    'webkitGetUserMedia',
-    'mozGetUserMedia',
-    'msGetUserMedia'
+  /**
+   * the object this._config.filters it's created
+   * this object contain booleans (default false), that
+   * represent the value (active or disable) for the filters
+   * added inside this dicctionary.
+   */
+  const FILTERS = [
+    'grayscale',
+    'brightness',
+    'threshold',
+    'mix'
   ];
 
-  HomeCtrl.prototype.snapshot = () => {
+  /**
+   * the object $scope
+   * contain booleans (default false), that
+   * represent the value (active or disable) for the buttons
+   * added inside this dicctionary.
+   */
+  const VIEW_DYNAMIC_BUTTONS = [
+    'video',
+    'sound'
+  ];
+
+  $scope.snapshot = () => {
     let video = this._config.video;
     let canvas = this._config.canvas;
     let image = this._config.image;
@@ -22,14 +39,28 @@ function HomeCtrl($filter) {
     }
   }
 
+  $scope.videoStream = () => {
+    $scope.video ? play() : pause();
+
+    $scope.video = !$scope.video;
+  }
+
+  $scope.soundStream = () => {
+    $scope.sound ? unmute() : mute();
+
+    $scope.sound = !$scope.sound;
+  }
+
   //-------------------- video functions --------------------//
-  let videoPlay = (stream) => {
+
+  let streamOn = (stream) => {
     let media = this._config.navigator;
     let video = this._config.video.DOMElement;
 
     video.src = window.URL ? window.URL.createObjectURL(stream) : stream;
     this._config.stream = stream;
     video.play();
+    mute();
 
     this._intervale = setInterval(() => {
       let mainContainer = this._config.mainContainer.JQueryElement;
@@ -39,7 +70,7 @@ function HomeCtrl($filter) {
       let image = new Image();
       let pixels;
 
-      context.drawImage(video, 0, 0, 300, 150);
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
       image.src = canvas.toDataURL('image/jpeg', 1.0);
       pixels = $filter('Filters').getPixels(image);
 
@@ -56,17 +87,8 @@ function HomeCtrl($filter) {
           pixels, SnapShot.prototype.hold
         );
         context.putImageData(image, 0, 0);
-      } else if (filters.convolute) {
-        image = $filter('Filters').convolute(
-          pixels, [
-            1, 0, 1,
-            0.2, 0.5, 1,
-            1, 0, 0
-          ],
-          12
-        );
-        context.putImageData(image, 0, 0);
       }
+
       mainContainer.css('background-image', 'url('.concat(
         canvas.toDataURL('image/jpeg', 1.0), ')'
       ));
@@ -75,10 +97,31 @@ function HomeCtrl($filter) {
     }, 100)
   }
 
+  let play = () => {
+    this._config.video.DOMElement.play();
+  }
+
+  let pause = () => {
+    this._config.video.DOMElement.pause();
+  }
+
+  let mute = () => {
+    this._config.video.DOMElement.muted = true;
+  }
+
+  let unmute = () => {
+    this._config.video.DOMElement.muted = false;
+  }
+
+  let factoryFilter = function(name, functionName) {
+    this.name = name;
+    this.function = $filter('Filters')[functionName];
+  }
+
   //-------------------- basic pre-configuration --------------------//
 
   let error = (error) => {
-    console.error(error);
+    throw error;
   }
 
   this._config = (() => {
@@ -92,12 +135,9 @@ function HomeCtrl($filter) {
     config.video = {
       JQueryElement: config.mainContainer.JQueryElement.children('video')
     };
+
     config.canvas = {
       JQueryElement: config.mainContainer.JQueryElement.children('canvas')
-    }
-
-    while (index < MEDIA_NAVIGATORS.length && !navigator[MEDIA_NAVIGATORS[index]]) {
-      index++;
     }
 
     // verify elements and add DOM elements
@@ -115,18 +155,12 @@ function HomeCtrl($filter) {
 
     config.context = config.canvas.DOMElement.getContext('2d');
 
-    config.filters = {
-      grayscale: false,
-      brightness: false,
-      threshold: false,
-      convolute: false
+    config.filters = {};
+    for (let index = 0; index < FILTERS.length; index++) {
+      config.filters[FILTERS[index]] = false;
     }
 
-    if (navigator[MEDIA_NAVIGATORS[index]]) {
-      config.navigator = MEDIA_NAVIGATORS[index]
-    } else {
-      throw new Error('This navigator not support HTML5');
-    }
+    config.navigator = Streams.mediaNavigator;
 
     return config;
   })();
@@ -151,17 +185,24 @@ function HomeCtrl($filter) {
       this._config.mainContainer.JQueryElement.css(screenDimensions);
     })
 
-    // match browser with corresponding navigator object
-    navigator.getMedia = navigator[media];
+    for (let index = 0; index < VIEW_DYNAMIC_BUTTONS.length; index++) {
+      $scope[VIEW_DYNAMIC_BUTTONS[index]] = false;
+    }
 
-    navigator.getMedia({
-      video: true,
-      audio: true
-    }, videoPlay, error);
+    // create filters objects
+    $scope.filters = {
+      grayScale: new factoryFilter('Gray Scale', 'grayscale'),
+      brightness: new factoryFilter('Brightness', 'brightness'),
+      threshold: new factoryFilter('Threshold', 'threshold')
+    };
+
+    Streams.obtainMedia()
+      .then((stream) => {
+        streamOn(stream);
+      }, (error) => {
+        throw (error);
+      })
   })();
-
-  return HomeCtrl.prototype;
-
 }
 
 export default {

@@ -1,4 +1,13 @@
 <div id="mainContainer">
-  <video width="640" height="480" autoplay></video>
-  <canvas style="display:none;"></canvas>
+  <canvas></canvas>
+
+  <filters></filters>
+
+  <!-- buttons set -->
+  <i ng-click="videoStream()"
+     ng-class="video ? 'fa-stop' : 'fa-play'"
+     class="fa" aria-hidden="true"></i>
+  <i ng-click="soundStream()"
+     ng-class="sound ? 'fa-microphone-slash' : 'fa-microphone'"
+     class="fa" aria-hidden="true"></i>
 </div>

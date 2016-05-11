@@ -1,0 +1,53 @@
+#filtersContainer {
+  left: 5%;
+  height: 20%;
+  overflow-x: scroll;
+  position: absolute;
+  bottom: 10%;
+  width: 90%;
+
+  div {
+    height: 100%;
+    width: 25%;
+
+    video {
+      display: none;
+
+      &:nth-child(1) {
+        filter: grayscale(1);
+      }
+
+      &:nth-child(2) {
+        filter: sepia(1);
+      }
+
+      &:nth-child(3) {
+        filter: blur(10px);
+      }
+
+      &:nth-child(4) {
+        filter: brightness(10);
+      }
+
+      &:nth-child(5) {
+        filter: contrast(10);
+      }
+
+      &:nth-child(6) {
+        filter: hue-rotate(180deg);
+      }
+
+      &:nth-child(7) {
+        filter: invert(1);
+      }
+
+      &:nth-child(8) {
+        filter: saturate(10);
+      }
+
+      &:nth-child(9) {
+        opacity: 0.5;
+      }
+    }
+  }
+}
